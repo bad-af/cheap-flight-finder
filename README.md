@@ -1,2 +1,2 @@
 # Cheap Flight Finder
-A project to finf cheap flights out of Portugal
+A project to find cheap flights out of Portugal
