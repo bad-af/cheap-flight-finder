@@ -1,4 +1,8 @@
 from datetime import datetime
+from dotenv import load_dotenv
+import os
+load_dotenv()
+api_token = os.getenv("TRAVELPAYOUTS_TOKEN")
 
 def ask_for_int(question):
     while True:
