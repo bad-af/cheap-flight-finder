@@ -1,6 +1,7 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import os
+import requests
 load_dotenv()
 api_token = os.getenv("TRAVELPAYOUTS_TOKEN")
 
@@ -65,3 +66,23 @@ european_destinations = [
     {"code": "ZRH", "city": "Zurich"},
     {"code": "GVA", "city": "Geneva"}
 ]
+
+url = "https://api.travelpayouts.com/aviasales/v3/prices_for_dates"
+params = {
+    "token": api_token,
+    "origin": "LIS",
+    "destination": "MAD",
+    "departure_at": "2026-10",
+    "currency": "eur"
+}
+answer = requests.get(url, params=params)
+print(answer.status_code)
+print(answer.json())
+
+actual_date = beginning_date
+while actual_date <= end_date:
+    print(actual_date)
+    return_data = actual_date + timedelta(days=min_duration)
+    actual_date = actual_date + timedelta(days = 1)
+    print(return_data)
+
