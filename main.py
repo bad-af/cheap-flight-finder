@@ -97,7 +97,9 @@ for origin in portuguese_airports:
                         "destination": destination["city"],
                         "departure date" : actual_date,
                         "return date" : return_date,
-                        "price" : cheapest_price}
+                        "price" : cheapest_price,
+                        "airline" : cheapest_flight["airline"],
+                        }
                     if route_key not in best_per_route:
                         best_per_route[route_key] = new_result
                     else:
