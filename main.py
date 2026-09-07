@@ -69,25 +69,33 @@ european_destinations = [
 
 url = "https://api.travelpayouts.com/aviasales/v3/prices_for_dates"
 
+results = []
+for destination in european_destinations:
+    actual_date = beginning_date
+    while actual_date <= end_date:
+        return_date = actual_date + timedelta(days=min_duration)
+        params = {
+            "token": api_token,
+            "origin": "LIS",
+            "destination": destination["code"],
+            "departure_at": actual_date.strftime("%Y-%m-%d"),
+            "return_at": return_date.strftime("%Y-%m-%d"),
+            "currency": "eur"
+        }
+        answer = requests.get(url, params=params)
+        flights = answer.json()["data"]
+        if flights:
+            cheapest_flight = flights[0]
+            cheapest_price = cheapest_flight["price"]
+            if cheapest_price <= max_budget:
+                results.append({
+                    "destination": destination["city"],
+                    "departure date" : actual_date,
+                    "return date" : return_date,
+                    "price" : cheapest_price})
 
-actual_date = beginning_date
-while actual_date <= end_date:
-    return_date = actual_date + timedelta(days=min_duration)
-    params = {
-        "token": api_token,
-        "origin": "LIS",
-        "destination": "MAD",
-        "departure_at": actual_date.strftime("%Y-%m-%d"),
-        "return_at": return_date.strftime("%Y-%m-%d"),
-        "currency": "eur"
-    }
-    answer = requests.get(url, params=params)
-    flights = answer.json()["data"]
-    if flights:
-        cheapest_flight = flights[0]
-        cheapest_price = cheapest_flight["price"]
-        if cheapest_price <= max_budget:
-            print(actual_date, return_date, cheapest_price)
-    actual_date = actual_date + timedelta(days = 1)
+        actual_date = actual_date + timedelta(days = 1)
 
+sorted_results = sorted(results, key=lambda item: item["price"])
+print(sorted_results)
 
