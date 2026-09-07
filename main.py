@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import os
 import requests
-from patsy import origin
+
 
 load_dotenv()
 api_token = os.getenv("TRAVELPAYOUTS_TOKEN")
@@ -71,7 +71,7 @@ european_destinations = [
 
 url = "https://api.travelpayouts.com/aviasales/v3/prices_for_dates"
 
-results = []
+best_per_route = {}
 for origin in portuguese_airports:
     for destination in european_destinations:
         actual_date = beginning_date
@@ -91,15 +91,21 @@ for origin in portuguese_airports:
                 cheapest_flight = flights[0]
                 cheapest_price = cheapest_flight["price"]
                 if cheapest_price <= max_budget:
-                    results.append({
+                    route_key = origin["city"] + "-" + destination["city"]
+                    new_result = {
                         "origin": origin["city"],
                         "destination": destination["city"],
                         "departure date" : actual_date,
                         "return date" : return_date,
-                        "price" : cheapest_price})
+                        "price" : cheapest_price}
+                    if route_key not in best_per_route:
+                        best_per_route[route_key] = new_result
+                    else:
+                        if new_result["price"] < best_per_route[route_key]["price"]:
+                            best_per_route[route_key] = new_result
 
             actual_date = actual_date + timedelta(days = 1)
 
-sorted_results = sorted(results, key=lambda item: item["price"])
+sorted_results = sorted(best_per_route.values(), key=lambda item: item["price"])
 print(sorted_results)
 
