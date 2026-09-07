@@ -82,8 +82,12 @@ while actual_date <= end_date:
         "currency": "eur"
     }
     answer = requests.get(url, params=params)
-    print(answer.status_code)
-    print(answer.json())
+    flights = answer.json()["data"]
+    if flights:
+        cheapest_flight = flights[0]
+        cheapest_price = cheapest_flight["price"]
+        if cheapest_price <= max_budget:
+            print(actual_date, return_date, cheapest_price)
     actual_date = actual_date + timedelta(days = 1)
 
 
