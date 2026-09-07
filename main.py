@@ -68,21 +68,22 @@ european_destinations = [
 ]
 
 url = "https://api.travelpayouts.com/aviasales/v3/prices_for_dates"
-params = {
-    "token": api_token,
-    "origin": "LIS",
-    "destination": "MAD",
-    "departure_at": "2026-10",
-    "currency": "eur"
-}
-answer = requests.get(url, params=params)
-print(answer.status_code)
-print(answer.json())
+
 
 actual_date = beginning_date
 while actual_date <= end_date:
-    print(actual_date)
-    return_data = actual_date + timedelta(days=min_duration)
+    return_date = actual_date + timedelta(days=min_duration)
+    params = {
+        "token": api_token,
+        "origin": "LIS",
+        "destination": "MAD",
+        "departure_at": actual_date.strftime("%Y-%m-%d"),
+        "return_at": return_date.strftime("%Y-%m-%d"),
+        "currency": "eur"
+    }
+    answer = requests.get(url, params=params)
+    print(answer.status_code)
+    print(answer.json())
     actual_date = actual_date + timedelta(days = 1)
-    print(return_data)
+
 
