@@ -109,5 +109,10 @@ for origin in portuguese_airports:
             actual_date = actual_date + timedelta(days = 1)
 
 sorted_results = sorted(best_per_route.values(), key=lambda item: item["price"])
-print(sorted_results)
+for result in sorted_results:
+    print(f"{result["origin"]} -> {result["destination"]}")
+    print(f"{result["price"]} euros go and back")
+    print(f"{result["departure date"].strftime("%d/%m")} -> {result["return date"].strftime("%d/%m")}")
+    print(f"airline: {result["airline"]}")
+
 
