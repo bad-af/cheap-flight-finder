@@ -20,7 +20,6 @@ The program searches round-trip flights from several Portuguese airports to a se
 ## Current limitations (V1)
 
 - **Data is not a live search.** Prices come from the [Travelpayouts Data API](https://travelpayouts.com), which returns the cheapest price *recently found by other users* (cached, up to 48h), not a real-time search across all airlines. It's a discovery tool, not a guaranteed booking price.
-- **Fixed trip duration.** Only the minimum duration entered is currently tested, not the full range between minimum and maximum.
 - **Limited airport and destination list.** Covers 5 Portuguese airports and around 23 European destinations with frequent low-cost routes — not yet a search across all of Europe.
 - **No network error handling.** If the API is unavailable or returns an error, the program doesn't yet handle that case gracefully.
 
@@ -46,6 +45,5 @@ The program searches round-trip flights from several Portuguese airports to a se
 ## Possible future versions
 
 - Compare prices against historical averages to better highlight good deals
-- Test all durations between the minimum and maximum entered, not just the minimum
 - Periodic alerts when an especially good deal appears
 - Wider list of European airports and destinations
