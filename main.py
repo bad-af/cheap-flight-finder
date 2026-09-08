@@ -76,35 +76,36 @@ for origin in portuguese_airports:
     for destination in european_destinations:
         actual_date = beginning_date
         while actual_date <= end_date:
-            return_date = actual_date + timedelta(days=min_duration)
-            params = {
-                "token": api_token,
-                "origin": origin["code"],
-                "destination": destination["code"],
-                "departure_at": actual_date.strftime("%Y-%m-%d"),
-                "return_at": return_date.strftime("%Y-%m-%d"),
-                "currency": "eur"
-            }
-            answer = requests.get(url, params=params)
-            flights = answer.json()["data"]
-            if flights:
-                cheapest_flight = flights[0]
-                cheapest_price = cheapest_flight["price"]
-                if cheapest_price <= max_budget:
-                    route_key = origin["city"] + "-" + destination["city"]
-                    new_result = {
-                        "origin": origin["city"],
-                        "destination": destination["city"],
-                        "departure date" : actual_date,
-                        "return date" : return_date,
-                        "price" : cheapest_price,
-                        "airline" : cheapest_flight["airline"],
-                        }
-                    if route_key not in best_per_route:
-                        best_per_route[route_key] = new_result
-                    else:
-                        if new_result["price"] < best_per_route[route_key]["price"]:
+            for duration in range(min_duration, max_duration + 1):
+                return_date = actual_date + timedelta(days=duration)
+                params = {
+                    "token": api_token,
+                    "origin": origin["code"],
+                    "destination": destination["code"],
+                    "departure_at": actual_date.strftime("%Y-%m-%d"),
+                    "return_at": return_date.strftime("%Y-%m-%d"),
+                    "currency": "eur"
+                }
+                answer = requests.get(url, params=params)
+                flights = answer.json()["data"]
+                if flights:
+                    cheapest_flight = flights[0]
+                    cheapest_price = cheapest_flight["price"]
+                    if cheapest_price <= max_budget:
+                        route_key = origin["city"] + "-" + destination["city"]
+                        new_result = {
+                            "origin": origin["city"],
+                            "destination": destination["city"],
+                            "departure date" : actual_date,
+                            "return date" : return_date,
+                            "price" : cheapest_price,
+                            "airline" : cheapest_flight["airline"],
+                            }
+                        if route_key not in best_per_route:
                             best_per_route[route_key] = new_result
+                        else:
+                            if new_result["price"] < best_per_route[route_key]["price"]:
+                                best_per_route[route_key] = new_result
 
             actual_date = actual_date + timedelta(days = 1)
 
