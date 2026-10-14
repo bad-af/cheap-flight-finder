@@ -2,10 +2,11 @@ import sqlite3
 def initialize_database():
     connection = sqlite3.connect("flights.db")
     query = ("CREATE TABLE IF NOT EXISTS flight_prices (id INTEGER PRIMARY KEY,"
-             "origin TEXT NOT NULL,"
-             "destination TEXT NOT NULL)")
+            "origin TEXT NOT NULL,"
+            "destination TEXT NOT NULL)")
     connection.execute(query)
     connection.close()
+initialize_database()
 
 def check_tables():
     connection = sqlite3.connect("flights.db")
