@@ -23,7 +23,7 @@ def add_departure_date_column():
              "ADD COLUMN departure_date TEXT")
     connection.execute(query)
     connection.close()
-add_departure_date_column()
+#add_departure_date_column()
 
 def check_columns():
     connection = sqlite3.connect("flights.db")
@@ -34,4 +34,10 @@ def check_columns():
     connection.close()
 check_columns()
 
-
+def add_return_date_column():
+    connection = sqlite3.connect("flights.db")
+    query = ("ALTER TABLE flight_prices "
+             "ADD COLUMN return_date TEXT")
+    connection.execute(query)
+    connection.close()
+add_return_date_column()
