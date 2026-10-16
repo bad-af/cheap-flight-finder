@@ -97,8 +97,27 @@ def check_columns():
         print(column[1])
 
     connection.close()
-
 check_columns()
+
+def insert_flights(origin, destination):
+    connection = sqlite3.connect("flights.db")
+    query = ("INSERT INTO flight_prices (origin, destination) "
+             "VALUES (?,?)")
+    connection.execute(query,(origin, destination))
+    connection.commit()
+    print("voo inserido")
+    connection.close()
+insert_flights("LIS", "MAD")
+insert_flights("OPO", "CDG")
+
+def check_flights():
+    connection = sqlite3.connect("flights.db")
+    query = ("SELECT * FROM flight_prices")
+    cursor = connection.execute(query)
+    result = cursor.fetchall()
+    print(result)
+    connection.close()
+check_flights()
 
 
 
